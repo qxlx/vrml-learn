@@ -1,0 +1,21 @@
+#VRML V2.0 utf8
+
+Shape {
+	appearance Appearance {material DEF mm Material {diffuseColor  1 0 0}}
+	geometry Cylinder {}
+}
+
+DEF	t TouchSensor {}
+
+DEF	time TimeSensor	{cycleInterval 1}
+DEF	cc ColorInterpolator {
+	key[0 1]
+	keyValue [
+		1 0 0
+		0 0 1
+	]
+}
+
+ROUTE  t.touchTime TO time.startTime
+ROUTE time.fraction_changed	TO cc.set_fraction
+ROUTE cc.value_changed TO  mm.diffuseColor

@@ -1,0 +1,73 @@
+#VRML V2.0 utf8
+
+
+#VRML V2.0 utf8
+Background {
+	frontUrl "1.jpg"
+}
+
+DEF gg	Transform {
+	rotation 0 0 1 -0.12
+	children [
+	 DEF global Shape {
+	appearance Appearance {
+		texture ImageTexture {
+			url "global.jpg"
+		
+		}}
+	geometry Sphere	{radius 1}
+}
+	]
+}
+
+DEF	time TimeSensor {
+	loop TRUE
+	cycleInterval 9
+}
+DEF	face OrientationInterpolator {
+	key	[0 0.25 0.5 0.75 1]
+	keyValue [
+		0.1 0.9 0 0
+		0.1 0.9 0 1.57
+		0.1 0.9 0 3.14
+		0.1 0.9 0 4.83
+	    0.1 0.9 0 6.28
+	]
+
+}
+
+
+DEF yy Transform {
+	center 0.1 0.9 0
+	children [
+	   Transform {
+	translation	3.5 -0.12 0
+	children [
+		Shape {
+			appearance Appearance {
+				texture ImageTexture {
+					 url "yueqiu..jpeg"
+				}}
+				geometry Sphere	{radius 0.6}
+		}
+	]
+}
+	]
+	
+}
+DEF	time2 TimeSensor {loop TRUE  cycleInterval 3}
+DEF	ss OrientationInterpolator {
+		   
+	key	[0 0.25 0.5 0.75 1]
+	keyValue [
+		0.1 0.9 0 0
+		0.1 0.9 0 1.57
+		0.1 0.9 0 3.14
+		0.1 0.9 0 4.83
+	    0.1 0.9 0 6.28
+	]
+}
+ROUTE time.fraction_changed	TO face.set_fraction
+ROUTE face.value_changed TO	gg.rotation
+ROUTE time2.fraction_changed	TO ss.set_fraction
+ROUTE ss.value_changed TO yy.rotation

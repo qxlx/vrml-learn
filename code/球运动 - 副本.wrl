@@ -1,0 +1,51 @@
+#VRML V2.0 utf8
+
+DEF	ss Transform {
+	children [
+		Shape {
+			appearance Appearance {material DEF mm Material {diffuseColor 1 1 0}}
+			geometry Sphere	{radius 0.5}
+		}
+	]
+}
+
+DEF	t TimeSensor {
+	loop TRUE
+}
+
+DEF	sin Script {
+	eventIn	SFTime change_color
+	eventIn	SFTime sin_move
+	eventOut SFVec3f pos_changed
+	field SFInt32 i 0
+	field SFFloat speed 0.01
+	field SFFloat ini 0
+	field SFFloat ini1 0
+	field SFNode s_mm USE mm
+	url	"javascript:
+	function sin_move(t1){
+		t = t1;
+		if((t-ini)>0.01){
+			pos_changed[0] = i*speed;
+			pos_changed[1] = Math.sin(i*speed);
+			i++;
+			ini = t;
+		}
+	}
+
+	function change_color(t1){
+		t = t1;
+		if((t-ini1)>0.5){
+			s_mm.diffuseColor[0] = Math.random();
+			s_mm.diffuseColor[1] = Math.random();
+			s_mm.diffuseColor[2] = Math.random();
+			ini1 = t;
+		}
+	}
+	"
+
+}
+
+ROUTE t.time TO	sin.sin_move
+ROUTE t.time TO	sin.change_color
+ROUTE sin.pos_changed TO ss.translation

@@ -1,0 +1,25 @@
+#VRML V2.0 utf8
+Shape {
+	appearance Appearance {material Material {diffuseColor 0 0.9 0 }}	
+	geometry Box {size 2 2 2}
+}
+DEF	t1 Transform 
+{
+	translation	  0.5 0 1.05
+	children [ 
+		DEF ss Shape {appearance Appearance {
+			material Material {
+				diffuseColor 0 1 1
+			}
+		}
+		geometry Box {size 1.8 2 0.1}} 
+		DEF	p1 PlaneSensor {
+		offset 0.5 0 1.05
+		minPosition	0  0
+		maxPosition	 1.9 0
+
+}
+	]
+}
+
+ ROUTE p1.translation_changed TO	t1.translation

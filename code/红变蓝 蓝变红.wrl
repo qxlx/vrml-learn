@@ -1,0 +1,33 @@
+#VRML V2.0 utf8
+Shape {
+	appearance Appearance {
+		material DEF mm Material {
+			diffuseColor 1 0 0
+		} }
+	geometry Cylinder {}
+}
+
+DEF	t TouchSensor {}
+
+DEF	switchColor Script {
+	field SFColor BLUE 0 0 1
+	field SFColor RED 1 0 0 
+	field SFBool FLAG TRUE
+	eventIn	SFTime click
+	eventOut SFColor color_changed
+
+	url	"javascript:
+	function click(){
+		if(FLAG){
+			 color_changed = BLUE;
+			 FLAG = !FLAG;
+		 }else{
+			color_changed = RED;
+			FLAG = !FLAG;
+		 }	
+	}
+	"
+}
+
+ROUTE t.touchTime TO switchColor.click
+ROUTE switchColor.color_changed	TO mm.diffuseColor

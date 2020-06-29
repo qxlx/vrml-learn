@@ -1,0 +1,50 @@
+#VRML V2.0 utf8
+DEF	tr Transform {
+	children [
+		DEF CYLINDER Shape{appearance Appearance {material DEF MM Material 
+			{diffuseColor 1 1 0}}
+	geometry Cylinder {radius 0.1 height 5}}
+	Transform {
+		rotation 0 0 1 1.57
+		children	[
+		  USE CYLINDER
+			]
+		}
+	]
+}
+
+
+DEF time TimeSensor{loop TRUE 
+	                    cycleInterval 5}
+
+DEF	rr OrientationInterpolator {
+	key	[0 0.5 1   ]
+	keyValue [0 0 1 0
+	          0 0 1 3.14
+		      0 0 1 6.28]
+}
+
+DEF	sin Script {
+    eventIn SFTime change_color
+	field SFTime int1 0
+	field SFNode s_mm USE MM
+
+	url	"javascript:
+	function change_color(t1){
+	 t=t1;
+	 if((t-int1)>0.5){
+		 s_mm.diffuseColor[0]=Math.random();
+		 s_mm.diffuseColor[1]=Math.random();
+	     s_mm.diffuseColor[2]=Math.random();
+	     int1 = t;
+	 }
+	}
+	    
+	"
+}
+
+
+
+ROUTE time.fraction_changed	TO rr.set_fraction
+ROUTE rr.value_changed TO tr.rotation
+ROUTE time.time	TO sin.change_color

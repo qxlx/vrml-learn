@@ -1,0 +1,99 @@
+#VRML V2.0 utf8
+
+
+Transform {
+	translation	0 1.5 0
+	children [
+		Shape {
+			appearance Appearance {
+				material DEF mm Material {
+					emissiveColor 0 0 0
+				}
+			}
+			geometry Sphere	{
+				radius 0.8
+			}
+		}
+	]
+}
+
+Transform {
+	translation	0 0.5 0
+	children [
+		Shape {
+			appearance Appearance {
+				material Material {
+					diffuseColor 0 1 1
+				}
+			}
+			geometry Cylinder	{
+				radius 0.1
+				height 2.5
+			}
+		}
+	]
+}
+
+Transform {
+	translation	0 -1 0
+	children [
+		Shape {
+			appearance Appearance {
+				material Material {
+					diffuseColor 0 1 1
+				}
+			}
+			geometry Cylinder	{
+				radius 1.0
+				height 0.5
+			}
+		}
+	]
+}
+
+DEF	tt TouchSensor {}
+
+DEF isLight Transform {
+	translation	3 0 0
+	children [
+		Shape {
+			appearance Appearance {
+				material Material {
+					diffuseColor 1 1 1
+				}
+			}
+			geometry Box {
+				size 0.2 0.2 0.2 
+			}
+		}
+	]
+}
+
+DEF ss Script {
+
+	field SFBool Boolean TRUE
+
+	eventIn SFBool LIGHT
+	eventOut SFColor color
+ 	
+	url "javascript:
+	function LIGHT()
+	{			
+		if(Boolean==TRUE)
+		{	color[0] =0;
+			color[1] =0;
+			color[2] =0;
+			Boolean=FALSE;
+		}
+		else
+		{	color[0] =1;
+			color[1] =1;
+			color[2] =1;
+			Boolean=TRUE;
+		}
+	}
+	"
+}
+
+ROUTE tt.isActive TO ss.LIGHT
+ROUTE ss.color TO mm.emissiveColor
